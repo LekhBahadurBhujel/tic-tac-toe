@@ -40,7 +40,8 @@ const Board =() => {
 
         const winner = calculateWinner(newarr)
         if(winner) alert (`The winner is ${winner}`)
-
+        else if (!newarr.includes(null)) alert ("It's a draw!")
+    
             setIsXnext(!isXnext)
             return newarr
         })
