@@ -24,11 +24,16 @@ const Board =() => {
                 console.log("Winner is", boxtext[a])
                 return boxtext[a];
             }
-           
+            
         }
          return null;
     }
-    
+
+   
+    const calculateDraw = (boxtext) => {
+        return boxtext.every(box => box !== null) && !calculateWinner(boxtext);
+    }
+
     const handleClick = (boxIndex) => {
         setBoxText(prev=>{
 
@@ -38,15 +43,33 @@ const Board =() => {
             newarr[boxIndex] = isXnext ? "X" : "O"
 
 
-        const winner = calculateWinner(newarr)
-        if(winner) alert (`The winner is ${winner}`)
-        else if (!newarr.includes(null)) alert ("It's a draw!")
+        // const winner = calculateWinner(newarr)
+        // if(winner) alert (`The winner is ${winner}`)
+        // else if (!newarr.includes(null)) alert ("It's a draw!")
     
             setIsXnext(!isXnext)
             return newarr
         })
 
     }
+
+    const winner = calculateWinner(boxtext)
+    const draw = calculateDraw(boxtext)
+
+    if (winner){
+        return<>
+        {winner} has won the game!
+        </>
+    }
+
+    if (draw){
+        return(
+            <>
+        Draw
+            </>
+        )     
+    }
+
 
     return(
             <div className="">
@@ -58,6 +81,11 @@ const Board =() => {
                 <Box onClick={()=>handleClick(i)}text={boxtext[i]} />
             ))}
 </div>
+
+<button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={()=>{
+    setBoxText([null,null,null,null,null,null,null,null,null])
+    setIsXnext(true)
+}}>Reset Game</button>
         </div>
     )
 }
