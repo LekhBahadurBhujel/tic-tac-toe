@@ -30,8 +30,8 @@ const Board =() => {
     }
 
    
-    const calculateDraw = (boxtext) => {
-        return boxtext.every(box => box !== null) && !calculateWinner(boxtext);
+    const calculateDraw = (arr) => {
+        return !arr.includes(null);
     }
 
     const handleClick = (boxIndex) => {
