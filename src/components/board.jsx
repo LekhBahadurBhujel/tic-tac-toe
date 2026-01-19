@@ -55,18 +55,24 @@ const Board =() => {
 
     const winner = calculateWinner(boxtext)
     const draw = calculateDraw(boxtext)
+    const restartGame=() => {
+        setBoxText(Array(9).fill(null));
+        setIsXnext(true);
+    }
 
     if (winner){
-        return<>
-        {winner} has won the game!
-        </>
+        return<div>
+        <p>{winner} has won the game!</p>
+        <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded" onClick={restartGame}>Restart Game</button>
+        </div>
     }
 
     if (draw){
         return(
-            <>
-        Draw
-            </>
+            <div>
+                <p>It's a draw!</p>
+        <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded" onClick={restartGame}>Restart Game</button>
+            </div>
         )     
     }
 
@@ -82,10 +88,7 @@ const Board =() => {
             ))}
 </div>
 
-<button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={()=>{
-    setBoxText([null,null,null,null,null,null,null,null,null])
-    setIsXnext(true)
-}}>Reset Game</button>
+        <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded" onClick={restartGame}>Restart Game</button>
         </div>
     )
 }
