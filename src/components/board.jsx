@@ -5,6 +5,7 @@ const Board =() => {
     const boxes = [1,2,3,4,5,6,7,8,9]
     const [boxtext, setBoxText] = useState([null,null,null,null,null,null,null,null,null])
     const [isXnext, setIsXnext] = useState(true)
+    const [lastMove, setLastMove]= useState(null)
 
     const calculateWinner =(boxtext)=>{
         const Winconditions =[
@@ -35,6 +36,9 @@ const Board =() => {
     }
 
     const handleClick = (boxIndex) => {
+
+        setLastMove(boxIndex)
+
         setBoxText(prev=>{
 
             if (prev[boxIndex]) return prev 
@@ -42,12 +46,8 @@ const Board =() => {
             const newarr = [...prev]
             newarr[boxIndex] = isXnext ? "X" : "O"
 
-
-        // const winner = calculateWinner(newarr)
-        // if(winner) alert (`The winner is ${winner}`)
-        // else if (!newarr.includes(null)) alert ("It's a draw!")
-    
             setIsXnext(!isXnext)
+            
             return newarr
         })
 
@@ -58,6 +58,17 @@ const Board =() => {
     const restartGame=() => {
         setBoxText(Array(9).fill(null));
         setIsXnext(true);
+    }
+
+    const undoMove = () => {
+        setBoxText(prev => {
+
+            const newarr = [...prev]
+            newarr[lastMove]=null
+            setIsXnext(!isXnext)
+            setLastMove(null)
+            return newarr
+        })
     }
 
     if (winner){
@@ -81,6 +92,8 @@ const Board =() => {
             <div className="">
                 
            <p className="font-medium text-lg">{isXnext? "Player X":"Player O"}</p>
+
+        {lastMove !== null && <button className="bg-green-50 my-2 py-1 border rounded-md" onClick={undoMove}>Undo</button>}
 
         <div className="grid grid-cols-3">
             {boxes.map((box, i)=>(
